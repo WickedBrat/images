@@ -8,7 +8,7 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY
 async function runBatchCron() {
     try {
         const dateObj = new Date();
-    dateObj.setDate(dateObj.getDate() + 1);
+    dateObj.setDate(dateObj.getDate());
     const today = dateObj.toISOString().split('T')[0];
 
         // 1. Fetch all rows for today that aren't processed
