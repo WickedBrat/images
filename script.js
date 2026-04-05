@@ -15,8 +15,7 @@ async function runBatchCron() {
         const { data: rows, error: fetchError } = await supabase
             .from('aksha_calendar')
             .select('*')
-            .eq('date', today)
-            .eq('status', 'pending');
+            .eq('date', today);
 
         if (fetchError) throw fetchError;
     if (!rows || rows.length === 0) {
@@ -51,7 +50,7 @@ async function runBatchCron() {
                     owner: 'wickedbrat',
                     repo: 'images',
                     path: path,
-                    message: `Cron: Image for ${record.topic}`,
+                    message: `Cron: Image for ${record.title}`,
                     content: imageBuffer.toString('base64'),
                 });
 
@@ -59,11 +58,11 @@ async function runBatchCron() {
 
                 // Update Supabase
                 await supabase
-                    .from('content_queue')
-                    .update({ image_url: imageUrl, status: 'completed' })
+                    .from('aksha_calendar')
+                    .update({ image_url: imageUrl })
                     .eq('id', record.id);
 
-                console.log(`Done: ${record.topic}`);
+                console.log(`Done: ${record.title}`);
 
                 // Optional: Small delay to respect Gemini/GitHub rate limits
                 await new Promise(res => setTimeout(res, 1000));
