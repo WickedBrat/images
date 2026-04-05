@@ -1,9 +1,23 @@
 import { Octokit } from "@octokit/rest";
 import { createClient } from "@supabase/supabase-js";
+import { GoogleGenAI } from "@google/genai";
 import 'dotenv/config';
 
 const octokit = new Octokit({ auth: process.env.GITHUB_PAT });
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+async function generateImageWithGemini(prompt) {
+    const response = await ai.models.generateImages({
+        model: 'gemini-3.1-pro-preview',
+        prompt: prompt,
+        config: {
+            numberOfImages: 1,
+            outputMimeType: "image/png",
+        },
+    });
+    return { data: response.generatedImages[0].image.imageBytes };
+}
 
 async function runBatchCron() {
     try {

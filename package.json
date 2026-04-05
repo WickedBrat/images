@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/WickedBrat/images#readme",
   "dependencies": {
+    "@google/genai": "^1.48.0",
     "@octokit/rest": "^22.0.1",
     "@supabase/supabase-js": "^2.101.1",
     "dotenv": "^17.4.0"
