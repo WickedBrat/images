@@ -9,7 +9,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 async function generateImageWithGemini(prompt) {
     const response = await ai.models.generateImages({
-        model: 'gemini-3-pro-image-preview',
+        model: 'gemini-3-pro-preview',
         prompt: prompt,
         config: {
             numberOfImages: 1,
